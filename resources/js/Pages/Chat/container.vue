@@ -2,22 +2,20 @@
     <app-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Chat
+                <chat-room-selection
+                    v-if="currentRoom.id"
+                    :rooms="chatRooms"
+                    :currentRoom="currentRoom"
+                    @roomChanged="setRoom($event)"
+                />
             </h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div :key="chatRoom.id" v-for="chatRoom in chatRooms">
-                    <ul>
-                        <li>
-                            {{chatRoom.name}}
-                        </li>
-                    </ul>
-                </div>
                 <div class="bg-white overflow-hidden shadow-md sm:rounded-lg">
-                    <message-container class="p-4" />
-                    <input-message :room="currentRoom" class="p-4" />
+                    <message-container :messages="messages" class="p-6 flex flex-col-reverse" />
+                    <input-message @messageSent="getMessages()" :room="currentRoom" class="p-4 border-t" />
                 </div>
             </div>
         </div>
@@ -28,12 +26,14 @@
     import AppLayout from '@/Layouts/AppLayout'
     import MessageContainer from './messageContainer.vue'
     import InputMessage from './inputMessage.vue'
+    import ChatRoomSelection from './chatRoomSelection.vue'
 
     export default {
         components: {
             AppLayout,
             MessageContainer,
             InputMessage,
+            ChatRoomSelection,
         },
 
         data() {
@@ -44,16 +44,40 @@
             }
         },
 
-        mounted() {
+        created() {
             this.getRooms();
-            this.getMessages();
+        },
+
+        watch: {
+            currentRoom( val, oldVal) {
+                if( oldVal.id ) {
+                    this.disconnect( oldVal );
+                }
+
+                this.connect();
+            }
         },
 
         methods: {
+
+            connect() {
+                if ( this.currentRoom.id ) {
+                    let vm = this;
+                    this.getMessages();
+                    window.Echo.private('chat.' + this.currentRoom.id )
+                    .listen('NewChatMessage', e => {
+                        vm.getMessages();
+                    });
+                }
+            },
+            disconnect( room ) {
+                window.Echo.leave('chat.' + room.id);
+            },
+
             getRooms() {
                 axios.get(route('rooms')).then( response => {
                     this.chatRooms = response.data;
-                    this.setRoom( response.data[0]);
+                    this.setRoom( response.data[0] );
                 })
                 .catch( error => {
                     console.log(error);
