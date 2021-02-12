@@ -1,6 +1,10 @@
 const mix = require('laravel-mix');
 require('dotenv').config();
 
+
+// Import the workbox plugin
+require('laravel-mix-workbox');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -18,7 +22,10 @@ mix.js('resources/js/app.js', 'public/js').vue()
         require('tailwindcss'),
         require('autoprefixer'),
     ])
-    .webpackConfig(require('./webpack.config'));
+    .webpackConfig(require('./webpack.config'))
+    .injectManifest({
+        swSrc: './resources/js/service-worker.js'
+      });
 
 if (mix.inProduction()) {
     mix.version();

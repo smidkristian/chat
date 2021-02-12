@@ -16,6 +16,7 @@
         <!-- Scripts -->
         @routes
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <link rel="manifest" href="manifest.json">
     </head>
     <body class="font-sans antialiased">
         @inertia

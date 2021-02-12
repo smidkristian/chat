@@ -24,10 +24,12 @@
         "tailwindcss": "^2.0.1",
         "vue": "^2.5.17",
         "vue-loader": "^15.9.6",
-        "vue-template-compiler": "^2.6.10"
+        "vue-template-compiler": "^2.6.10",
+        "workbox-webpack-plugin": "^6.1.0"
     },
     "dependencies": {
         "laravel-echo": "^1.10.0",
+        "laravel-mix-workbox": "^0.1.4",
         "pusher-js": "^7.0.3"
     }
 }
