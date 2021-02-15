@@ -21,6 +21,8 @@
         "portal-vue": "^2.1.7",
         "postcss": "^8.1.14",
         "postcss-import": "^12.0.1",
+        "pusher-js": "^7.0.3",
+        "simple-peer": "^9.9.3",
         "tailwindcss": "^2.0.1",
         "vue": "^2.5.17",
         "vue-loader": "^15.9.6",
@@ -29,7 +31,6 @@
     },
     "dependencies": {
         "laravel-echo": "^1.10.0",
-        "laravel-mix-workbox": "^0.1.4",
-        "pusher-js": "^7.0.3"
+        "laravel-mix-workbox": "^0.1.4"
     }
 }

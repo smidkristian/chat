@@ -39,3 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/chat', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/chat/rooms', [ChatController::class , 'rooms'])->name('rooms');
 Route::middleware(['auth:sanctum', 'verified'])->get('/chat/room/{roomId}/messages', [ChatController::class , 'messages'])->name('messages');
 Route::middleware(['auth:sanctum', 'verified'])->post('/chat/room/{roomId}/message', [ChatController::class , 'newMessage'])->name('newMessage');
+
+// VideoChat
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/video_chat', [VideoChatController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/auth/video_chat', [VideoChatController::class, 'auth']);
